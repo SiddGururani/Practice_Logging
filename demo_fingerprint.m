@@ -75,7 +75,7 @@ dirname = '../PracticeDatabase/1412/141204/';
 % find all the MP3 files
 dlist = dir(fullfile(dirname, '*.mp3'));
 % put their full paths into a cell array
-tks = []; 
+tks = [];
 for i = 1:length(dlist); ...
 tks{i} = fullfile(dirname, dlist(i).name); ...
 end
@@ -83,7 +83,9 @@ end
 clear_hashtable
 % Calculate the landmark hashes for each reference track and store
 % it in the array (takes a few seconds per track).
-add_tracks(tks);
+%add_tracks(tks);
+load('HashTable.mat')
+load('HastTableCounts.mat')
 % Load a query waveform (recorded from playback on a laptop)
 [dt,srt] = audioread('141204-013.mp3');
 % Run the query
