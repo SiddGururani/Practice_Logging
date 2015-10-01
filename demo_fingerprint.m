@@ -70,7 +70,8 @@
 % Get the list of reference tracks to add (URLs in this case, but
 % filenames work too)
 % directory containing the mp3 files
-dirname = 'data';
+%dirname = 'data';
+dirname = '../PracticeDatabase/1408/140805/';
 % find all the MP3 files
 dlist = dir(fullfile(dirname, '*.mp3'));
 % put their full paths into a cell array
