@@ -1,6 +1,6 @@
 % A function to block a single mp3 file and put all of those blocked
 % versions into a new directory. 
-function blockmp3(filename,blocksize_in_sec,hopsize_in_sec);
+function blockmp3(filename,blocksize_in_sec,hopsize_in_sec)
 
 % Get rid of whatever extension there was
 [filename_separated, delimiter] = strsplit(filename,'.');

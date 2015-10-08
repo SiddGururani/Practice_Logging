@@ -1,81 +1,19 @@
-%% Robust Landmark-Based Audio Fingerprinting
+% This function takes a directory, hashes it, and saves the hashes as
+% 'HashTable.mat' in the directory.
 %
-% _Note: please see also
-% <http://labrosa.ee.columbia.edu/matlab/audfprint/ AUDFPRINT>
-% which is a more fully-featured fingerprint tool developed from
-% this codebase._
-%
-% These routines implement a landmark-based audio fingerprinting 
-% system that is very well suited to identifying small, noisy 
-% excerpts from a large number of items.  It is based on the 
-% ideas used in the Shazam music matching service, which can 
-% identify seemingly any commercial music tracks from short 
-% snippets recorded via cellphones even in very noisy conditions. 
-% I don't know if my algorithm is as good as theirs, but the 
-% approach, as described in the paper below, certainly seems to 
-% work:
-%
-% Avery Wang "An Industrial-Strength Audio Search Algorithm", 
-% Proc. 2003 ISMIR International Symposium on Music Information
-% Retrieval, Baltimore, MD, Oct. 2003.
-% http://www.ee.columbia.edu/~dpwe/papers/Wang03-shazam.pdf
-%
-% The basic operation of this scheme is that each audio track is
-% analyzed to find prominent onsets concentrated in frequency,
-% since these onsets are most likely to be preserved in noise and
-% distortion.  These onsets are formed into pairs, parameterized by
-% the frequencies of the peaks and the time inbetween them.  These
-% values are quantized to give a relatively large number of
-% distinct landmark hashes (about 1 million in my implementation).
-% Parameters are tuned to give around 20-50 landmarks per second.
-%
-% Each reference track is described by the (many hundreds) of
-% landmarks it contains, and the times at which they occur.  This
-% information is held in an inverted index, which, for each of the
-% 1 million distinct landmarks, lists the tracks in which they
-% occur (and when they occur in those tracks).
-%
-% To identify a query, it is similarly converted to landmarks.
-% Then, the database is queried to find all the reference tracks
-% that share landmarks with the queries, and the relative time
-% differences between where they occur in the query and where they
-% occur in the reference tracks.  Once a sufficient number of
-% landmarks have been identified as coming from the same reference
-% track, with the same relative timing, a match can be confidently
-% declared.  Normally, a small number of matches (e.g. 5) is
-% sufficient to declare a match, since chance matches are very
-% unlikely.  
-%
-% The beauty, and robustness, of this approach is that only a few
-% of the maxima (or landmarks) have to be the same in the
-% refererence and query examples to allow a match.  If the query
-% example is noisy, or filtered strangely, or truncated, there's
-% still a good chance that enough of the hashed landmarks will
-% match to work.  In the examples below, a 5 second excerpt 
-% recorded from a very low-quality playback is successfully
-% matched.  
+% Code modified from Dan Ellis' 'demo_fingerprint.m'
 
-%% Example use
-%
-% In the example below, we'll load a small database of audio tracks
-% over the internet.  You will need to have the latest version of
-% my mp3read installed, which supports reading files from URLs.
-% See http://labrosa.ee.columbia.edu/matlab/mp3read.html .
-% <myls.m myls> also relies on having curl available to
-% work (should be fine on Linux/Mac; if you want to run it 
-% on Windows, you can download a version of curl from 
-% http://curl.haxx.se/download.html , but you'll have to 
-% modify myls.m to make it invoke it correctly).
+function make_hashes(dirname)
 
+global HashTable HashTableCounts
 % Get the list of reference tracks to add (URLs in this case, but
 % filenames work too)
 % directory containing the mp3 files
 %dirname = 'data';
-dirname = '../PracticeDatabase/1412/141204/';
 % find all the MP3 files
 dlist = dir(fullfile(dirname, '*.mp3'));
 % put their full paths into a cell array
-tks = [];
+tks = []; 
 for i = 1:length(dlist); ...
 tks{i} = fullfile(dirname, dlist(i).name); ...
 end
@@ -83,32 +21,10 @@ end
 clear_hashtable
 % Calculate the landmark hashes for each reference track and store
 % it in the array (takes a few seconds per track).
-%add_tracks(tks);
-load('HashTable.mat')
-load('HastTableCounts.mat')
-% Load a query waveform (recorded from playback on a laptop)
-[dt,srt] = audioread('141204-013.mp3');
-% Run the query
-R = match_query(dt,srt);
-% R returns all the matches, sorted by match quality.  Each row
-% describes a match with three numbers: the index of the item in
-% the database that matches, the number of matching hash landmarks,
-% and the time offset (in 32ms steps) between the beggining of the
-% reference track and the beggining of the query audio.
-R(1,:)
-% 5 18 1 18 means tks{5} was matched with 18 matching landmarks, at a
-% time skew of 1 frame (query starts ~ 0.032s after beginning of
-% reference track), and a total of 18 hashes matched that track at 
-% any time skew (meaning that in this case all the matching hashes 
-% had the same time skew of 1).
-%
-% Plot the matches
-illustrate_match(dt,srt,tks);
-colormap(1-gray)
-% This re-runs the match, then plots spectrograms of both query and
-% the matching part of the reference, with the landmark pairs
-% plotted on top in red, and the matching landmarks plotted in
-% green.
+add_tracks(tks);
+
+save([dirname '/HashTable.mat'],'HashTable')
+save([dirname '/HastTableCounts.mat'],'HashTableCounts')
 
 %% Implementation notes
 %
