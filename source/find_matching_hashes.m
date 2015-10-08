@@ -12,3 +12,5 @@ load([dirname '/HastTableCounts.mat'])
 [dt,srt] = audioread([dirname '/' filename]);
 % Run the query
 R = match_query(dt,srt);
+
+matches = show_matching_filenames(filename, dirname, R)
