@@ -1,0 +1,15 @@
+0.0 			N
+1.462857142		Exposition:FirstGroup
+16.277188208	Exposition:Transition
+33.367074829	Exposition:SecondGroup
+67.852653061	Exposition:CadentialGroup
+71.867823129	Exposition:FirstGroup
+87.285827664	Exposition:Transition
+104.745215419	Exposition:SecondGroup
+139.435827664	Exposition:CadentialGroup
+143.468752834	Development
+179.277891156	Recapitulation:FirstGroup
+194.842517006	Recapitulation:Transition
+212.462585034	Recapitulation:SecondGroup
+255.326621315	Recapitulation:CadentialGroup
+259.877732426	End

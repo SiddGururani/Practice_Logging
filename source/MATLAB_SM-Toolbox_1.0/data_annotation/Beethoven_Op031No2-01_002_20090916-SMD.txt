@@ -1,0 +1,5 @@
+0.000	140.000		Exposition
+140.000	260.000		Exposition
+260.000	355.000		Development
+355.000	512.000		Recapitulation
+512.520	530.000		Coda
