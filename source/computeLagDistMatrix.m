@@ -22,11 +22,11 @@ end
 
 R = R';
 
-imagesc(R)
-ylabel('Lag (s)')
-xlabel('Time (s)')
-title('Lag Distance Matrix')
-axis xy
-
+% imagesc(R)
+% ylabel('Lag (s)')
+% xlabel('Time (s)')
+% title('Lag Distance Matrix')
+% axis xy
+% 
 
 

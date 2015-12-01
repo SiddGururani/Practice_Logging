@@ -39,7 +39,7 @@ paramThres.applyBinarize = 1;
 
 paramThres.threshTechnique = 2;
 paramThres.threshValue = 0.15;
-paramThres.applyBinarize = 0;
+paramThres.applyBinarize = 1;
 paramThres.applyScale = 1;
 paramThres.penalty = -2;
 [S_final] = threshSM(S,paramThres);  
@@ -53,3 +53,7 @@ handleFigure = visualizeSM(S_final,paramVis);
 parameterMPP.fs = 22050;
 parameterMPP.featureRate = 2;
 makePlotPlayable(f_audio, handleFigure, parameterMPP);
+
+%Normalize S_final
+S_final_norm = S_final + 2;
+S_final_norm = S_final_norm/max(S_final_norm(:));

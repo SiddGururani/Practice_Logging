@@ -1,25 +1,42 @@
-function [vpc] = pitchChroma(X,fs,fftlen)
+function [vpc] = FeatureSpectralPitchChroma(X, f_s)
 
-%C4 starting pitch - 60
-%fftlen = 4096;
-X1 = abs(X);
-nbins = 1:size(X,1);
-freq = nbins*fs/fftlen;
+    % allocate memory
+    vpc         = zeros(12, size(X,2));
 
-%compute the midi note number of each bin
-midifreq = round(69 + 12*log2(freq/440));
-
-pitch_chroma = zeros(12,size(X,2));
-for i = 60:108
-    locations = find(midifreq == i);
-    power = X1(locations,:);
-    total = sum(power,1);
-    pitch_chroma(mod((i-60),12)+1,:) = pitch_chroma(mod((i-60),12)+1,:) + total;
+    % generate filter matrix
+    H           = GeneratePcFilters(size(X,1), f_s);
+ 
+    % compute pitch chroma
+    vpc         = H * X.^2;
+    
+    % norm pitch chroma to a sum of 1
+    vpc         = vpc ./ repmat(sum(vpc,1), 12, 1);
+       
+    % avoid NaN for silence frames
+    vpc (:,sum(X,1) == 0) = 0;
 end
 
-vpc = pitch_chroma;
-for i = 1:size(vpc,2)
-    vpc(:,i) = vpc(:,i)/norm(vpc(:,i),1);
-end
-% imagesc(vpc);
+%> generate the semi-tone filters (simple averaging)
+function [H] = GeneratePcFilters (iFftLength, f_s)
+
+    % initialization at C4
+    f_mid           = 261.63;
+    iNumOctaves     = 4;
+    
+    %sanity check
+    while (f_mid*2^iNumOctaves > f_s/2 )
+        iNumOctaves = iNumOctaves - 1;
+    end
+    
+    H               = zeros (12, iFftLength);
+    
+    for (i = 1:12)
+        afBounds  = [2^(-1/24) 2^(1/24)] * f_mid * 2* iFftLength/f_s;
+        for (j = 1:iNumOctaves)
+           iBounds                      = [ceil(2^(j-1)*afBounds(1)) floor(2^(j-1)*afBounds(2))];
+           H(i,iBounds(1):iBounds(2))   = 1/(iBounds(2)+1-iBounds(1));
+        end
+        % increment to next semi-tone
+        f_mid   = f_mid*2^(1/12);
+    end   
 end

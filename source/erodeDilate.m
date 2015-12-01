@@ -7,14 +7,14 @@
 
 function [SDM_ed] = erodeDilate(SDM, L)
 
-SDM = SDM - 1; 
-SDM(SDM == -1) = 1; %inverse the SDM matrix (becomes self-similarity matrix)
+% SDM = SDM - 1; 
+% SDM(SDM == -1) = 1; %inverse the SDM matrix (becomes self-similarity matrix)
 se = strel('line', L, 0); %length = L, degree = 0
 tmp = imerode(SDM, se);
 SDM_ed = imdilate(tmp,se);
 
-imagesc(SDM_ed)
-ylabel('Lag (s)')
-xlabel('Time (s)')
-title('Eroded and Dilated Matrix')
-axis xy
+% imagesc(SDM_ed)
+% ylabel('Lag (s)')
+% xlabel('Time (s)')
+% title('Eroded and Dilated Matrix')
+% axis xy

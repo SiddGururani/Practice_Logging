@@ -57,8 +57,10 @@ initPaths;
 % The following lines are identical to the code of Table 2, [MJG13].
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear; close all;
-filename = 'Test_AABA.wav';
-[f_audio,sideinfo] = wav_to_audio('', 'data_music/', filename);
+filename = '140415-013.mp3';
+% filename = 'Test_AABA.wav'
+% [f_audio,sideinfo] = wav_to_audio('', 'data_music/', filename);
+[f_audio,sideinfo] = audioread(filename);
 paramPitch.winLenSTMSP = 4410;
 [f_pitch] = audio_to_pitch_via_FB(f_audio,paramPitch);
 paramCENS.winLenSmooth = 11;
@@ -67,39 +69,39 @@ paramCENS.downsampSmooth = 5;
 
 S = features_to_SM(f_CENS,f_CENS);
 paramVis.colormapPreset = 2;
-visualizeSM(S,paramVis);
+% visualizeSM(S,paramVis);
 
 paramSM.smoothLenSM = 20;
-S = features_to_SM(f_CENS,f_CENS,paramSM);
-visualizeSM(S,paramVis);
+% S = features_to_SM(f_CENS,f_CENS,paramSM);
+% visualizeSM(S,paramVis);
 
 paramSM.tempoRelMin = 0.5;
 paramSM.tempoRelMax = 2;
 paramSM.tempoNum = 7;
-S = features_to_SM(f_CENS,f_CENS,paramSM);
-visualizeSM(S,paramVis);
+% S = features_to_SM(f_CENS,f_CENS,paramSM);
+% visualizeSM(S,paramVis);
 
 paramSM.forwardBackward = 1;
-S = features_to_SM(f_CENS,f_CENS,paramSM);
-visualizeSM(S,paramVis);
+% S = features_to_SM(f_CENS,f_CENS,paramSM);
+% visualizeSM(S,paramVis);
 
 paramSM.circShift = [0:11];
 [S,I] = features_to_SM(f_CENS,f_CENS,paramSM);
 visualizeSM(S,paramVis);
 visualizeTransIndex(I,paramVis);
 
-paramThres.threshTechnique = 1;
-paramThres.threshValue = 0.75;
-paramThres.applyBinarize = 1;
-[S_thres,paramThres] = threshSM(S,paramThres);
-visualizeSM(S_thres,paramVis);
+% paramThres.threshTechnique = 1;
+% paramThres.threshValue = 0.75;
+% paramThres.applyBinarize = 1;
+% [S_thres,paramThres] = threshSM(S,paramThres);
+% visualizeSM(S_thres,paramVis);
 
 paramThres.threshTechnique = 2;
 paramThres.threshValue = 0.15;
-paramThres.applyBinarize = 0;
+paramThres.applyBinarize = 1;
 paramThres.applyScale = 1;
 paramThres.penalty = -2;
-[S_final] = threshSM(S,paramThres);  
+[S_final] = threshSM(S,paramThres);
 paramVis.imagerange = [-2,1];
 paramVis.colormapPreset = 3;
 paramVis.print=1;

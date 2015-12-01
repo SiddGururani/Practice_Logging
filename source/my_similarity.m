@@ -5,7 +5,7 @@
 function S_final = my_similarity(filename1, movt)
 
 % Filename1 is a filename in the present directory mp3 format
-% Filename2 is the template filenmane in potentially another directory
+% Filename2 is the template filenane in potentially another directory
 
 % It would appear that sideinfo is not being used in the following line, so
 % we might even forego wav_to_audio in the first place
@@ -53,6 +53,13 @@ paramThres.applyBinarize = 0;
 paramThres.applyScale = 1;
 paramThres.penalty = -2;
 [S_final] = threshSM(S,paramThres);  
+
+% Normalize sim matrix
+S_final_norm = S_final + 2;
+S_final_norm = S_final_norm/max(S_final_norm(:));
+
+S_final = S_final_norm;
+clear S_final_norm
 
 % paramVis.imagerange = [-2,1];
 % paramVis.colormapPreset = 3;

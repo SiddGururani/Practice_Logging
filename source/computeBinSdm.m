@@ -12,8 +12,8 @@ SDM(SDM<=threshold) = 0;
 
 SDM_binary = SDM;
 
-imagesc(SDM_binary)
-ylabel('Lag (s)')
-xlabel('Time (s)')
-title(['Binary Lag Distance Matrix: Threshold =  ' num2str(threshold)])
-axis xy
+% imagesc(SDM_binary)
+% ylabel('Lag (s)')
+% xlabel('Time (s)')
+% title(['Binary Lag Distance Matrix: Threshold =  ' num2str(threshold)])
+% axis xy
