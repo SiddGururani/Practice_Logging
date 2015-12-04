@@ -6,6 +6,9 @@ end
 [data1, fs] = audioread(file1);
 data2 = audioread(file2);
 
+% Removing last 4 seconds of silence
+data1 = data1(1:end-4*fs);
+
 window = fs*2;
 overlap = 3/4*window;
 

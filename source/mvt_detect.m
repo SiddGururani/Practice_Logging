@@ -15,9 +15,9 @@ lag2 = computeLagDistMatrix(distmat2');
 lag3 = computeLagDistMatrix(distmat3');
 
 %% Binarize Distance Matrix with threshold
-bin1 = computeBinSdm(lag1,0.20);
-bin2 = computeBinSdm(lag2,0.20);
-bin3 = computeBinSdm(lag3,0.20);
+bin1 = computeBinSdm(lag1,0.2);
+bin2 = computeBinSdm(lag2,0.2);
+bin3 = computeBinSdm(lag3,0.2);
 
 %% Erode and Dilate
 er1 = erodeDilate(bin1,20);
@@ -35,22 +35,33 @@ b1 = b1(2:end); b2 = b2(2:end); b3 = b3(2:end);
 m1 = 0;
 for i = 1:numel(b1)
     m1 = m1+size(cell2mat(b1(i)),1);
+%         x = cell2mat(b1(i));
+%         m1 = m1 + max(x(:,1)) - min(x(:,1));
 end
 m1 = m1/numel(b1);
 
 m2 = 0;
 for i = 1:numel(b2)
     m2 = m2+size(cell2mat(b2(i)),1);
+%         x = cell2mat(b2(i));
+%         m2 = m2 + max(x(:,1)) - min(x(:,1));
 end
 m2 = m2/numel(b2);
 
 m3 = 0;
 for i = 1:numel(b3)
     m3 = m3+size(cell2mat(b3(i)),1);
+%         x = cell2mat(b3(i));
+%         m3 = m3 + max(x(:,1)) - min(x(:,1));
 end
 m3 = m3/numel(b3);
 
 %% Find maximum average length and output it as belonging to that song.
-[~, c_id] = max([m1, m2, m3]);
+[maxi, c_id] = max([m1, m2, m3]);
 
+% If average length of line is less than 1 second then categorize as
+% 'others'
+% if(max(diff([m1,m2,m3]))<1) 
+%     c_id = 0;
+% end
 end
