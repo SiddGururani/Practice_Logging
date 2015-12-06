@@ -1,3 +1,4 @@
+% File 1 and File 2 are filenames
 function distmat = compute_distmat(file1, file2)
 if nargin == 1
     file2 = file1;
@@ -7,7 +8,7 @@ end
 data2 = audioread(file2);
 
 % Removing last 4 seconds of silence
-data1 = data1(1:end-4*fs);
+data1 = data1(1:end-4*fs,:);
 
 window = fs*2;
 overlap = 3/4*window;
