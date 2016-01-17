@@ -1,9 +1,12 @@
-[id, filename] = textread('../../37files.csv','%d,%s');
+% Script to pick best parameters given a dataset. Larger dataset gives
+% better parameters for overall decent performance.
+
+[id, filename] = textread('../../50files.csv','%d,%s');
 c1 = 0; c2 = 0;
-for t = 0.15:0.005:0.3
+for t = 0.13:0.005:0.3
 	c1 = c1+1;
 	c2 = 0;
-	for l = 4:2:50
+	for l = 2:2:20
 		c2 = c2+1;
 		tp = 0; tn = 0; fp = 0; fn = 0;
 		for i = 1:numel(id)
@@ -19,4 +22,4 @@ for t = 0.15:0.005:0.3
 		p = tp/(tp+fp);
 		detect_Precision(c1,c2) = p;
 	end
-end
+end     

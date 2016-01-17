@@ -13,8 +13,8 @@ se = strel('line', L, 0); %length = L, degree = 0
 tmp = imerode(SDM, se);
 SDM_ed = imdilate(tmp,se);
 
-% imagesc(SDM_ed)
-% ylabel('Lag (s)')
-% xlabel('Time (s)')
-% title('Eroded and Dilated Matrix')
-% axis xy
+imagesc(SDM_ed)
+ylabel('Lag (s)')
+xlabel('Time (s)')
+title('Eroded and Dilated Matrix')
+axis xy

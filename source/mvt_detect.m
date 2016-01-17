@@ -15,14 +15,14 @@ lag2 = computeLagDistMatrix(distmat2');
 lag3 = computeLagDistMatrix(distmat3');
 
 %% Binarize Distance Matrix with threshold
-bin1 = computeBinSdm(lag1,0.2);
-bin2 = computeBinSdm(lag2,0.2);
-bin3 = computeBinSdm(lag3,0.2);
+bin1 = computeBinSdm(lag1,0.25);
+bin2 = computeBinSdm(lag2,0.25);
+bin3 = computeBinSdm(lag3,0.25);
 
 %% Erode and Dilate
-er1 = erodeDilate(bin1,20);
-er2 = erodeDilate(bin2,20);
-er3 = erodeDilate(bin3,20);
+er1 = erodeDilate(bin1,6);
+er2 = erodeDilate(bin2,6);
+er3 = erodeDilate(bin3,6);
 
 %% Find the boundaries of the lines in eroded and dilated binary matrix.
 b1 = bwboundaries(er1);

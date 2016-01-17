@@ -32,8 +32,8 @@ end
 vpc1 = pitchChroma(abs(spec1), fs);
 vpc2 = pitchChroma(abs(spec2), fs);
 
-mat1 = [vpc1;vmfcc1(1:12,:)];
-mat2 = [vpc2;vmfcc2(1:12,:)];
+mat1 = [vpc1;vmfcc1(1:13,:)];
+mat2 = [vpc2;vmfcc2(1:13,:)];
 % distmat = pdist2(vmfcc1', vmfcc2');
 distmat = pdist2(mat1',mat2');
 end
